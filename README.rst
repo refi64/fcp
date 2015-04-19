@@ -1,7 +1,7 @@
 fcp
 ===
 
-An ultra-fast, multi-threaded file-copy utility written in `Nim <http://nim-lang.org/>`_.
+An ultra-fast, multi-threaded file-copy utility written in `Nim <http://nim-lang.org/>`_. fcp excels in moving directories with a large number of moderately-sized or large files.
 
 Building
 ********
