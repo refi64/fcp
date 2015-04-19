@@ -8,14 +8,21 @@ type
 var
   live = 0
   copied = 0
-  threadMax = 5
+  threadMax = 20
+
+when declared(atomicAddFetch):
+  template ainc(a: int) = discard atomicAddFetch(addr(a), 1, ATOMIC_RELAXED)
+  template adec(a: int) = discard atomicAddFetch(addr(a), -1, ATOMIC_RELAXED)
+else:
+  template ainc(a: int) = discard addAndFetch(addr(a), 1)
+  template adec(a: int) = discard addAndFetch(addr(a), -1)
 
 proc `$$`[T](s: T, z: T): string = align($s, len($z), '0')
 
 proc copy(file: FilePath) {.thread.} =
   copyFileWithPermissions file.src, file.dst
-  inc copied
-  dec live
+  ainc copied
+  adec live
 
 proc copyFiles(files: FileList) =
   var total = files.len
@@ -33,8 +40,8 @@ proc copyFiles(files: FileList) =
   for file in files:
     while live+1 > threadMax:
       stdout.flushFile
+    ainc live
     spawn copy(file)
-    inc live
     report()
   while total-copied != 0: report()
   report()

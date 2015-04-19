@@ -19,11 +19,9 @@ Usage
 
 ::
 
-   fcp <source directory> <target directory> [<number of threads; defaults to 5>]
+   fcp <source directory> <target directory> [<number of threads; defaults to 20>]
 
 TODO
 ****
-
-- If more than about 7 threads are opened, a SIGSEGV occurs.
 
 - Test on Windows.
