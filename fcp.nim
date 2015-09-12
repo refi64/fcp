@@ -27,7 +27,6 @@ proc copy(file: FilePath) {.thread.} =
 proc copyFiles(files: FileList) =
   var total = files.len
 
-  # it would be cleaner if this were a closure, but Nim issue #2440 prevents that
   template report() =
     stdout.flushFile
     stdout.write "\rFiles copied: $#, files left: $#, active threads: $#" % [
@@ -72,7 +71,7 @@ proc setupFileList(src, dst: string): seq[FilePath] =
   for path in walkDirRec src:
     var
       dstfile = dst / path[src.len .. ^1]
-      parent = parentDir(dstfile)
+      parent = dstfile.parentDir
     if parent != "": createDir parent
     result.add FilePath(src: path, dst: dstfile)
 
