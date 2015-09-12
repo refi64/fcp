@@ -42,10 +42,7 @@ proc copyFiles(files: FileList) =
     ainc live
     spawn copy(file)
     report()
-  while total-copied != 0:
-    var i = total-copied
-    report()
-    while i == total-copied: continue
+  while total-copied != 0: report()
   report()
   sync()
   report()
